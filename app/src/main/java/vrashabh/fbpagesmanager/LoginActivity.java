@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.facebook.widget.LoginButton;
 
 
 public class LoginActivity extends ActionBarActivity {
@@ -14,6 +15,7 @@ public class LoginActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login2);
 
+        LoginButton fbLogin = (LoginButton) findViewById(R.id.authButton);
 
     }
 
