@@ -10,5 +10,7 @@
     <string name="hello_world">Hello world!</string>
 
     <string name="action_settings">Settings</string>
+    <string name="title_activity_learning_the_api">LearningTheAPIActivity</string>
+    <string name="title_activity_managed_pages_view">Pages Managed by You!</string>
 
 </resources>

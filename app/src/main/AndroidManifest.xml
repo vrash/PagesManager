@@ -14,18 +14,20 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
-        android:name="FBPagesManager"
+        android:name=".FBPagesManager"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:screenOrientation="portrait"
-        android:theme="@style/AppTheme"
-        >
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/app_id"/>
+        android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/app_id" />
+
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,7 +38,7 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden">
+            android:windowSoftInputMode="adjustResize|stateHidden" >
         </activity>
         <activity
             android:name="com.facebook.LoginActivity"
@@ -46,6 +48,15 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".LearningTheAPIActivity"
+            android:label="@string/title_activity_learning_the_api" >
+        </activity>
+        <activity
+            android:name=".ManagedPagesViewActivity"
+            android:label="@string/title_activity_managed_pages_view" >
+        </activity>
     </application>
 
 </manifest>
