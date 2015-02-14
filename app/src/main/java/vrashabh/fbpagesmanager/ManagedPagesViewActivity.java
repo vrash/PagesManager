@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 import vrashabh.fbpagesmanager.Adapters.PageViewAdapter;
 import vrashabh.fbpagesmanager.ORMpackages.AccountsResponse;
+import vrashabh.fbpagesmanager.utilities.Utilities;
 
 
 public class ManagedPagesViewActivity extends ActionBarActivity {
@@ -32,6 +33,12 @@ public class ManagedPagesViewActivity extends ActionBarActivity {
     Context mContext = this;
     PageViewAdapter mpAdapter;
     private ProgressDialog dialog;
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +68,12 @@ public class ManagedPagesViewActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+        else if(id == R.id.action_logout)
+        {
+            Utilities.logout(mContext);
+
+            this.finish();
         }
 
         return super.onOptionsItemSelected(item);
@@ -158,6 +171,7 @@ public class ManagedPagesViewActivity extends ActionBarActivity {
         protected void onProgressUpdate(Void... values) {
         }
     }
+
 
 
 }

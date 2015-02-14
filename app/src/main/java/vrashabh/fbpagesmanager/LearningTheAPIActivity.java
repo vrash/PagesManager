@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.facebook.Session;
 
+import vrashabh.fbpagesmanager.utilities.Utilities;
+
 
 public class LearningTheAPIActivity extends ActionBarActivity {
 
@@ -19,8 +21,7 @@ public class LearningTheAPIActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learning_the_api);
-        Intent i = new Intent();
-        String pageName = i.getStringExtra("EXTRA_PAGE_NAME");
+        String pageName = getIntent().getStringExtra("EXTRA_PAGE_NAME");
         //Set the name of the page
         TextView pageNamer = (TextView) findViewById(R.id.pageactionname);
         pageNamer.setText(pageName);
@@ -45,6 +46,11 @@ public class LearningTheAPIActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+        else if(id == R.id.action_logout)
+        {
+            Utilities.logout(mContext);
+            this.finish();
         }
 
         return super.onOptionsItemSelected(item);

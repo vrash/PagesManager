@@ -1,19 +1,35 @@
 package vrashabh.fbpagesmanager;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.facebook.HttpMethod;
+import com.facebook.Request;
+import com.facebook.Response;
+
+import vrashabh.fbpagesmanager.utilities.Utilities;
+
 
 public class FeedView extends ActionBarActivity {
+
+    Context mContext = this;
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed_view);
+        dialog = new ProgressDialog(mContext);
+        dialog.setMessage("Calling mission control...");
+        dialog.show();
+        dialog.setCanceledOnTouchOutside(false);
+        new GetPageFeedView().execute();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -32,8 +48,48 @@ public class FeedView extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.action_logout) {
+            Utilities.logout(mContext);
+            this.finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private class GetPageFeedView extends AsyncTask<String, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+         /* make the API call */
+
+            new Request(
+                    FBPagesManager.sessionInstance,
+                    "/"+FBPagesManager.pageID+"/feed",
+                    null,
+                    HttpMethod.GET,
+                    new Request.Callback() {
+                        public void onCompleted(Response response) {
+
+
+                        }
+                    }
+            ).executeAndWait();
+            return true;
         }
 
-        return super.onOptionsItemSelected(item);
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
+        }
+
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+        }
     }
 }
