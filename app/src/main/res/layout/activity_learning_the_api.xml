@@ -18,7 +18,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="36dp"
         android:background="@color/FBPAGEBGBT"
-        android:onClick="ViewPostsOnPage"
+        android:onClick="CreateAPost"
         android:text="View Posts on Page"
         android:textColor="@color/white" />
 
@@ -31,7 +31,7 @@
         android:layout_below="@+id/button"
         android:layout_marginTop="41dp"
         android:background="@color/FBPAGEBGBT"
-        android:onClick="CreateATextPost"
+        android:onClick="CreateAPost"
         android:text="Create a Text Post"
         android:textColor="@color/white" />
 
@@ -44,7 +44,7 @@
         android:layout_below="@+id/button2"
         android:layout_marginTop="46dp"
         android:background="@color/FBPAGEBGBT"
-        android:onClick="CreateAPhotoPost"
+        android:onClick="CreateAPost"
         android:text="Create a Photo Post"
         android:textColor="@color/white" />
 
@@ -57,7 +57,7 @@
         android:layout_below="@+id/button3"
         android:layout_marginTop="41dp"
         android:background="@color/FBPAGEBGBT"
-        android:onClick="CreateAVideoPost"
+        android:onClick="CreateAPost"
         android:text="Create a Video Post"
         android:textColor="@color/white" />
 
@@ -68,6 +68,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:background="@color/FBPAGEBGBT"
+        android:onClick="ShowInsights"
         android:text="Get Some Insights"
         android:textColor="@color/white" />
 
@@ -79,6 +80,16 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="53dp"
         android:text="What would you like to do?"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/pageactionname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="Name of the page"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/white" />
 

@@ -10,9 +10,9 @@
     <string name="hello_world">Hello world!</string>
 
     <string name="action_settings">Settings</string>
-    <string name="title_activity_learning_the_api">LearningTheAPIActivity</string>
-    <string name="title_activity_managed_pages_view">Pages Managed by You!</string>
-    <string name="title_activity_content_creation">ContentCreationActivity</string>
-    <string name="title_activity_feed_view">FeedView</string>
+    <string name="title_activity_learning_the_api">Manage your page</string>
+    <string name="title_activity_managed_pages_view">Your Pages</string>
+    <string name="title_activity_content_creation">Create Post</string>
+    <string name="title_activity_feed_view">View Post Feed</string>
 
 </resources>

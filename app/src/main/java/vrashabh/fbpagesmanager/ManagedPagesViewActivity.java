@@ -2,11 +2,15 @@ package vrashabh.fbpagesmanager;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.facebook.HttpMethod;
@@ -26,6 +30,7 @@ public class ManagedPagesViewActivity extends ActionBarActivity {
 
     ArrayList<AccountsResponse> responseAccounts;
     Context mContext = this;
+    PageViewAdapter mpAdapter;
     private ProgressDialog dialog;
 
     @Override
@@ -35,6 +40,7 @@ public class ManagedPagesViewActivity extends ActionBarActivity {
         dialog = new ProgressDialog(mContext);
         dialog.setMessage("Loading all the facebook goodness");
         dialog.show();
+        dialog.setCanceledOnTouchOutside(false);
         new GetPageDataASync().execute();
     }
 
@@ -75,6 +81,7 @@ public class ManagedPagesViewActivity extends ActionBarActivity {
 
                             //Gson gsonResponse = new Gson();
                             //responseAccounts = gsonResponse.fromJson(response.getRawResponse(), AccountsResponse.class);
+                            //Shitty parse - godammn gson has circular references !
                             try {
                                 JSONObject jobj = new JSONObject(response.getRawResponse());
                                 JSONArray data = jobj.getJSONArray("data");
@@ -89,7 +96,7 @@ public class ManagedPagesViewActivity extends ActionBarActivity {
                                     responseAccounts.add(nbj);
                                 }
                             } catch (Exception e) {
-
+                                Log.e("ManagedPagesView", e.getMessage());
                             }
 
                         }
@@ -104,18 +111,44 @@ public class ManagedPagesViewActivity extends ActionBarActivity {
                 dialog.dismiss();
             }
 
-            ListView mpList = (ListView)findViewById(R.id.managedPagesView);
-            PageViewAdapter mpAdapter = new PageViewAdapter(mContext,responseAccounts);
+            //For the embarassing case when you dont own facebook pages
+            if (responseAccounts.size() == 0) {
+                AccountsResponse nbj = new AccountsResponse();
+                nbj.setName("Sorry you don't manage any pages :( ");
+                nbj.setCategory("But you can get started today! :) ");
+                nbj.setId("-1");
+                nbj.setAccess_token("-1");
+                responseAccounts.add(nbj);
+            }
+
+            ListView mpList = (ListView) findViewById(R.id.managedPagesView);
+            mpAdapter = new PageViewAdapter(mContext, responseAccounts);
             mpList.setAdapter(mpAdapter);
-          /*  mpList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                //@Override
-                public void onItemClick(AdapterView arg0, View view,
+
+            mpList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,
                                         int position, long id) {
-                    // user clicked a list item, make it "selected"
-                    mpAdapter.setSelectedPosition(position);
-                    //Do your stuff here
-                }});*/
+
+                    FBPagesManager.pageAccessToken = responseAccounts.get(position).getAccess_token().toString();
+                    if (FBPagesManager.pageAccessToken == "-1") {
+/*TODO:MESSAGE WHEN NO ITEMS PRESENT AND LIST IS CLICKED*/
+                    } else {
+                        FBPagesManager.pageID = responseAccounts.get(position).getId().toString();
+
+                        // Call the rendering activity
+                        Intent i = new Intent(mContext, LearningTheAPIActivity.class);
+                        i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        i.putExtra("EXTRA_PAGE_NAME", responseAccounts.get(position).getName().toString());
+                        startActivity(i);
+
+                    }
+                }
+            });
+
         }
+
 
         @Override
         protected void onPreExecute() {
@@ -125,4 +158,6 @@ public class ManagedPagesViewActivity extends ActionBarActivity {
         protected void onProgressUpdate(Void... values) {
         }
     }
+
+
 }

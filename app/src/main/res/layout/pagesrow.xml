@@ -4,13 +4,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#FFFFFFFF" />
+
     <TextView android:id="@+id/pagename"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
         android:text="STARTUPS"
-        android:textSize="30dp"/>
+        android:textSize="25dp"/>
 
     <TextView
         android:id="@+id/pagetyper"
@@ -20,5 +26,10 @@
         android:gravity="center"
         android:text="COMMUNITY"/>
 
+    <View
+        android:id="@+id/divider"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#FFFFFFFF" />
 
 </LinearLayout>

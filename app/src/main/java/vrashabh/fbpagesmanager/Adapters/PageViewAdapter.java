@@ -18,6 +18,7 @@ public class PageViewAdapter extends BaseAdapter {
     Context context;
     ArrayList<AccountsResponse> data;
 
+
     public PageViewAdapter(Context context, ArrayList<AccountsResponse> data) {
         // TODO Auto-generated constructor stub
         this.context = context;
@@ -56,6 +57,7 @@ public class PageViewAdapter extends BaseAdapter {
         TextView category = (TextView) vi.findViewById(R.id.pagetyper);
         category.setText(data.get(position).getName().toString());
         category.setTextColor(vi.getResources().getColor(R.color.white));
+
         return vi;
     }
 }

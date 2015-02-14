@@ -9,10 +9,12 @@ import com.facebook.Session;
  */
 public class FBPagesManager extends Application {
 
-    //Hardcoded for testing pleasure
-    public static final String pageID="1573171042922681";
+    //Saved across the application for demo-ing pleasure
+    public static  String pageID;
+    public static String pageAccessToken;
+
     //Facebook key goodness
-   public static Session sessionInstance;
+    public static Session sessionInstance;
 
 
 

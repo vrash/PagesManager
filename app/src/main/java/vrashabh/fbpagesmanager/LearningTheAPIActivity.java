@@ -1,24 +1,29 @@
 package vrashabh.fbpagesmanager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
-import com.facebook.HttpMethod;
-import com.facebook.Request;
-import com.facebook.Response;
 import com.facebook.Session;
 
 
 public class LearningTheAPIActivity extends ActionBarActivity {
 
+    Context mContext = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learning_the_api);
+        Intent i = new Intent();
+        String pageName = i.getStringExtra("EXTRA_PAGE_NAME");
+        //Set the name of the page
+        TextView pageNamer = (TextView) findViewById(R.id.pageactionname);
+        pageNamer.setText(pageName);
 
     }
 
@@ -58,33 +63,23 @@ public class LearningTheAPIActivity extends ActionBarActivity {
                 resultCode, data);
     }
 
-    public void CreateATextPost(View v) {
-        //Then Post
-        Bundle params = new Bundle();
-        params.putString("about", "Test about text");
-        params.putString("hours", "{'mon_1_open': '12:00'}");
-        params.putString("cover", "1234567890");
-        params.putString("offset_y", "45");
-/* make the API call */
-        new Request(
-                FBPagesManager.sessionInstance,
-                "/{" + FBPagesManager.pageID+"}",
-                params,
-                HttpMethod.POST,
-                new Request.Callback() {
-                    public void onCompleted(Response response) {
-            /* handle the result */
-                    }
-                }
-        ).executeAsync();
-    }
+    public void CreateAPost(View v) {
 
-    public void CreateAPhotoPost(View v) {
+        switch (v.getId()) {
+            case R.id.button:
+                Intent i = new Intent(mContext,FeedView.class);
+                mContext.startActivity(i);
+                break;
+            case R.id.button2:
+                break;
+            case R.id.button3:
+                break;
+            case R.id.button4:
+                break;
+            case R.id.button5:
+                break;
 
-    }
-
-    public void CreateAVideoPost(View v) {
-
+        }
     }
 }
 
