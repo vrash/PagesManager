@@ -68,9 +68,7 @@ public class ManagedPagesViewActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }
-        else if(id == R.id.action_logout)
-        {
+        } else if (id == R.id.action_logout) {
             Utilities.logout(mContext);
 
             this.finish();
@@ -171,7 +169,6 @@ public class ManagedPagesViewActivity extends ActionBarActivity {
         protected void onProgressUpdate(Void... values) {
         }
     }
-
 
 
 }

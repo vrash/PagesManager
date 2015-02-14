@@ -17,6 +17,7 @@ import vrashabh.fbpagesmanager.utilities.Utilities;
 public class LearningTheAPIActivity extends ActionBarActivity {
 
     Context mContext = this;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,9 +47,7 @@ public class LearningTheAPIActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }
-        else if(id == R.id.action_logout)
-        {
+        } else if (id == R.id.action_logout) {
             Utilities.logout(mContext);
             this.finish();
         }
@@ -73,7 +72,7 @@ public class LearningTheAPIActivity extends ActionBarActivity {
 
         switch (v.getId()) {
             case R.id.button:
-                Intent i = new Intent(mContext,FeedView.class);
+                Intent i = new Intent(mContext, FeedView.class);
                 mContext.startActivity(i);
                 break;
             case R.id.button2:

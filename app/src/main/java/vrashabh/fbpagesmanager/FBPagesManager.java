@@ -10,12 +10,11 @@ import com.facebook.Session;
 public class FBPagesManager extends Application {
 
     //Saved across the application for demo-ing pleasure
-    public static  String pageID;
+    public static String pageID;
     public static String pageAccessToken;
 
     //Facebook key goodness
     public static Session sessionInstance;
-
 
 
 }

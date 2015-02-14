@@ -5,19 +5,32 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import vrashabh.fbpagesmanager.Adapters.FeedViewAdapter;
+import vrashabh.fbpagesmanager.ORMpackages.FeedData;
 import vrashabh.fbpagesmanager.utilities.Utilities;
 
 
 public class FeedView extends ActionBarActivity {
 
     Context mContext = this;
+    ArrayList<FeedData> feedStream;
+    FeedViewAdapter fvAdapter;
     private ProgressDialog dialog;
 
     @Override
@@ -62,13 +75,45 @@ public class FeedView extends ActionBarActivity {
          /* make the API call */
 
             new Request(
+                    //Limit to 10 posts for viewing at any point
+                    /*TODO: IMPROVE PERFORMANCE TO UNLIMITED SCROLLING*/
+
                     FBPagesManager.sessionInstance,
-                    "/"+FBPagesManager.pageID+"/feed",
+                    "/" + FBPagesManager.pageID + "/feed?limit=10",
                     null,
                     HttpMethod.GET,
                     new Request.Callback() {
                         public void onCompleted(Response response) {
 
+                            try {
+                                JSONObject jobj = new JSONObject(response.getRawResponse());
+                                JSONArray data = jobj.getJSONArray("data");
+                                //Parse the large feed stream - limit to 10 objects for now
+                                feedStream = new ArrayList<FeedData>();
+                                for (int i = 0; i < data.length(); i++) {
+                                    FeedData feedData = new FeedData();
+                                    JSONObject indiObjects = data.getJSONObject(i);
+                                    feedData.setId(indiObjects.getString("id"));
+                                    feedData.setCreated_time(indiObjects.getString("created_time"));
+                                    feedData.setUpdated_time(indiObjects.getString("updated_time"));
+                                    feedData.setType(indiObjects.getString("type"));
+
+                                    if (indiObjects.getString("type") == "photo") {
+                                        feedData.setPicture(indiObjects.getString("picture"));
+                                        feedData.setLink(indiObjects.getString("link"));
+                                        feedData.setIcon(indiObjects.getString("icon"));
+                                        feedData.setStory(indiObjects.getString("story"));
+
+                                    } else if (indiObjects.getString("type") == "status") {
+                                        feedData.setMessage(indiObjects.getString("message"));
+                                    }
+                                    //Fill up the arraylist with the objects
+                                    feedStream.add(feedData);
+                                }
+
+                            } catch (Exception ex) {
+                                Log.e("FeedView", ex.getMessage());
+                            }
 
                         }
                     }
@@ -81,6 +126,20 @@ public class FeedView extends ActionBarActivity {
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
+
+            ListView feedList = (ListView) findViewById(R.id.feedlist);
+            fvAdapter = new FeedViewAdapter(mContext, feedStream);
+            feedList.setAdapter(fvAdapter);
+            feedList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        int position, long id) {
+
+
+                }
+
+            });
         }
 
 

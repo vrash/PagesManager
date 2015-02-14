@@ -32,7 +32,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         setContentView(R.layout.activity_login2);
         LoginButton fbLogin = (LoginButton) findViewById(R.id.authButton);
         //Its a lot of permissions, but then I dont like the workaround yet
-        if(FBPagesManager.sessionInstance!=null)
+        if (FBPagesManager.sessionInstance != null)
             fbLogin.setPublishPermissions(Arrays.asList("public_profile", "email", "publish_stream", "user_likes", "manage_pages", "publish_actions", "read_insights"));
 
     }

@@ -7,13 +7,13 @@ import java.io.Serializable;
 /**
  * Created by vrashabh on 2/13/15.
  */
-public class AccountsResponse extends Application implements Serializable{
+public class AccountsResponse extends Application implements Serializable {
 
     public String access_token;
-        public String category;
-        public String name;
-        public String id;
-        public String[] perms;
+    public String category;
+    public String name;
+    public String id;
+    public String[] perms;
 
     public String getAccess_token() {
         return access_token;
