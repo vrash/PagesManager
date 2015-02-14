@@ -1,9 +1,11 @@
 package vrashabh.fbpagesmanager.ORMpackages;
 
+import android.app.Application;
+
 /**
  * Created by vrashabh on 2/13/15.
  */
-public class UserInfo {
+public class UserInfo extends Application {
     String UserName;
     String fbUserId;
     String UserEmail;

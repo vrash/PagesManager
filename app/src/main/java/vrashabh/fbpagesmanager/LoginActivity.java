@@ -7,16 +7,13 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
-import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
-import com.google.gson.Gson;
 
 import java.util.Arrays;
 
@@ -27,6 +24,7 @@ import vrashabh.fbpagesmanager.ORMpackages.UserInfo;
 public class LoginActivity extends ActionBarActivity implements View.OnClickListener {
 
     Context mContext = this;
+    AccountsResponse responseAccounts = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +32,8 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         setContentView(R.layout.activity_login2);
         LoginButton fbLogin = (LoginButton) findViewById(R.id.authButton);
         //Its a lot of permissions, but then I dont like the workaround yet
-        fbLogin.setPublishPermissions(Arrays.asList("basic_info", "email", "publish_stream", "user_likes", "manage_pages", "publish_actions", "read_insights"));
+        if(FBPagesManager.sessionInstance!=null)
+            fbLogin.setPublishPermissions(Arrays.asList("public_profile", "email", "publish_stream", "user_likes", "manage_pages", "publish_actions", "read_insights"));
 
     }
 
@@ -75,30 +74,6 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                                     }
                                 }
                             }).executeAsync();
-
-                    /* make the API call */
-                    new Request(
-                            session,
-                            "/me/accounts",
-                            null,
-                            HttpMethod.GET,
-                            new Request.Callback() {
-                                public void onCompleted(Response response) {
-
-                                    Gson gsonResponse = new Gson();
-                                    /*JSONObject jsonObj=null;
-                                    try {
-                                         jsonObj = new JSONObject(response.toString());
-                                    }
-                                    catch(Exception e)
-                                    {
-                                        Log.d("LoginActivity", "JSON FORMAT IS PROBABLY WRONG")
-                                    }*/
-                                    AccountsResponse responseAccounts = gsonResponse.fromJson(response.getRawResponse(), AccountsResponse.class);
-
-                                }
-                            }
-                    ).executeAsync();
                 }
             }
         });
@@ -132,12 +107,10 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         super.onResume();
         //Session session = Session.getActiveSession();
         FBPagesManager.sessionInstance = Session.getActiveSession();
+
         if (FBPagesManager.sessionInstance != null && FBPagesManager.sessionInstance.isOpened()) {
-            Toast.makeText(mContext, FBPagesManager.sessionInstance.getAccessToken(), Toast.LENGTH_LONG).show();
-            //All done, now go to the LearningActivityClass
             Intent x = new Intent(mContext, ManagedPagesViewActivity.class);
             mContext.startActivity(x);
         }
-
     }
 }

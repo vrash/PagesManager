@@ -13,5 +13,6 @@
     <string name="title_activity_learning_the_api">LearningTheAPIActivity</string>
     <string name="title_activity_managed_pages_view">Pages Managed by You!</string>
     <string name="title_activity_content_creation">ContentCreationActivity</string>
+    <string name="title_activity_feed_view">FeedView</string>
 
 </resources>

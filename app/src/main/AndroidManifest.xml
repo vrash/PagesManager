@@ -61,6 +61,10 @@
             android:name=".ContentCreationActivity"
             android:label="@string/title_activity_content_creation" >
         </activity>
+        <activity
+            android:name=".FeedView"
+            android:label="@string/title_activity_feed_view" >
+        </activity>
     </application>
 
 </manifest>
