@@ -79,7 +79,7 @@ public class FeedView extends ActionBarActivity {
                     /*TODO: IMPROVE PERFORMANCE TO UNLIMITED SCROLLING*/
 
                     FBPagesManager.sessionInstance,
-                    "/" + FBPagesManager.pageID + "/feed?limit=10",
+                    "/" + FBPagesManager.pageID + "/feed",
                     null,
                     HttpMethod.GET,
                     new Request.Callback() {
@@ -98,13 +98,13 @@ public class FeedView extends ActionBarActivity {
                                     feedData.setUpdated_time(indiObjects.getString("updated_time"));
                                     feedData.setType(indiObjects.getString("type"));
 
-                                    if (indiObjects.getString("type") == "photo") {
+                                    if (indiObjects.getString("type").equals("photo")) {
                                         feedData.setPicture(indiObjects.getString("picture"));
                                         feedData.setLink(indiObjects.getString("link"));
                                         feedData.setIcon(indiObjects.getString("icon"));
                                         feedData.setStory(indiObjects.getString("story"));
 
-                                    } else if (indiObjects.getString("type") == "status") {
+                                    } else if (indiObjects.getString("type").equals("status")) {
                                         feedData.setMessage(indiObjects.getString("message"));
                                     }
                                     //Fill up the arraylist with the objects

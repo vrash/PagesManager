@@ -76,6 +76,8 @@ public class LearningTheAPIActivity extends ActionBarActivity {
                 mContext.startActivity(i);
                 break;
             case R.id.button2:
+                Intent contentCreate = new Intent(mContext, ContentCreationActivity.class);
+                mContext.startActivity(contentCreate);
                 break;
             case R.id.button3:
                 break;

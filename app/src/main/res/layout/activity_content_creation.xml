@@ -54,6 +54,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="57dp"
         android:background="@color/FBPAGEBGBT"
+        android:onClick="PostToPage"
         android:text="Post on Page"
         android:textColor="@color/white" />
 </RelativeLayout>

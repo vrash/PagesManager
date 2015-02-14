@@ -55,7 +55,7 @@ public class PageViewAdapter extends BaseAdapter {
         pageName.setText(data.get(position).getName().toString());
         pageName.setTextColor(vi.getResources().getColor(R.color.white));
         TextView category = (TextView) vi.findViewById(R.id.pagetyper);
-        category.setText(data.get(position).getName().toString());
+        category.setText(data.get(position).getCategory().toString());
         category.setTextColor(vi.getResources().getColor(R.color.white));
 
         return vi;

@@ -52,7 +52,7 @@ public class FeedViewAdapter extends BaseAdapter {
         View vi = convertView;
         if (vi == null)
             vi = inflater.inflate(R.layout.feedrow, null);
-        if (data.get(position).getType() == "photo") {
+        if (data.get(position).getType().equals("photo")) {
             ImageView imageView = (ImageView) vi.findViewById(R.id.feedImage);
             Picasso.with(context).load(data.get(position).getPicture()).into(imageView);
         }

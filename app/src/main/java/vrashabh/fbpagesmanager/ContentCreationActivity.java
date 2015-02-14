@@ -1,17 +1,25 @@
 package vrashabh.fbpagesmanager;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
 public class ContentCreationActivity extends ActionBarActivity {
+
+    ProgressDialog dialog;
+    Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content_creation);
+
     }
 
 
@@ -35,5 +43,40 @@ public class ContentCreationActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onPostClick() {
+        dialog = new ProgressDialog(mContext);
+        dialog.setMessage("Posting to Facebook Page");
+        dialog.show();
+        dialog.setCanceledOnTouchOutside(false);
+        new PostToPage().execute();
+    }
+
+    private class PostToPage extends AsyncTask<String, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+         /* make the API call */
+
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
+            Toast.makeText(mContext, "Posted to Facebook page!", Toast.LENGTH_SHORT).show();
+        }
+
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+        }
     }
 }
