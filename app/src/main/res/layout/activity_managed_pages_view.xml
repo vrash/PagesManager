@@ -5,7 +5,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="vrashabh.fbpagesmanager.ManagedPagesViewActivity">
+    tools:context="vrashabh.fbpagesmanager.ManagedPagesViewActivity"
+    >
 
     <ListView
         android:id="@+id/managedPagesView"
@@ -21,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="Welcome to FB Pages Manager"
+        android:text="Welcome!"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/white" />
 
@@ -31,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
-        android:text="Please pick one of your pages"
+        android:text="Pick your page"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/white" />
 

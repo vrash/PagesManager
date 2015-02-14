@@ -57,6 +57,10 @@
             android:name=".ManagedPagesViewActivity"
             android:label="@string/title_activity_managed_pages_view" >
         </activity>
+        <activity
+            android:name=".ContentCreationActivity"
+            android:label="@string/title_activity_content_creation" >
+        </activity>
     </application>
 
 </manifest>

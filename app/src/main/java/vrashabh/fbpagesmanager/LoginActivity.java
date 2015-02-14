@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 
 import java.util.Arrays;
 
+import vrashabh.fbpagesmanager.ORMpackages.AccountsResponse;
 import vrashabh.fbpagesmanager.ORMpackages.UserInfo;
 
 
@@ -33,7 +34,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         setContentView(R.layout.activity_login2);
         LoginButton fbLogin = (LoginButton) findViewById(R.id.authButton);
         //Its a lot of permissions, but then I dont like the workaround yet
-        fbLogin.setPublishPermissions(Arrays.asList("basic_info","email","publish_stream","user_likes","manage_pages","publish_actions","read_insights"));
+        fbLogin.setPublishPermissions(Arrays.asList("basic_info", "email", "publish_stream", "user_likes", "manage_pages", "publish_actions", "read_insights"));
 
     }
 
@@ -68,12 +69,8 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                                 public void onCompleted(GraphUser user,
                                                         Response response) {
                                     if (user != null) {
-                                        //TextView welcome = (TextView) findViewById(R.id.welcome);
-                                        Toast.makeText(mContext, "Hello "
-                                                + user.getName() + "!", Toast.LENGTH_LONG).show();
                                         UserInfo uInfo = new UserInfo();
                                         uInfo.setUserName(user.getName());
-
 
                                     }
                                 }
@@ -89,7 +86,16 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                                 public void onCompleted(Response response) {
 
                                     Gson gsonResponse = new Gson();
-                                    //AccountsResponse responseAccounts = gsonResponse.fromJson();
+                                    /*JSONObject jsonObj=null;
+                                    try {
+                                         jsonObj = new JSONObject(response.toString());
+                                    }
+                                    catch(Exception e)
+                                    {
+                                        Log.d("LoginActivity", "JSON FORMAT IS PROBABLY WRONG")
+                                    }*/
+                                    AccountsResponse responseAccounts = gsonResponse.fromJson(response.getRawResponse(), AccountsResponse.class);
+
                                 }
                             }
                     ).executeAsync();
@@ -129,7 +135,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         if (FBPagesManager.sessionInstance != null && FBPagesManager.sessionInstance.isOpened()) {
             Toast.makeText(mContext, FBPagesManager.sessionInstance.getAccessToken(), Toast.LENGTH_LONG).show();
             //All done, now go to the LearningActivityClass
-            Intent x = new Intent(mContext, LearningTheAPIActivity.class);
+            Intent x = new Intent(mContext, ManagedPagesViewActivity.class);
             mContext.startActivity(x);
         }
 
