@@ -83,7 +83,10 @@ public class LearningTheAPIActivity extends ActionBarActivity {
                 break;
             case R.id.button4:
                 break;
-            case R.id.button5:
+            //Redirect to the web view if all else fails
+            case R.id.button7:
+                Intent webRedirect = new Intent(mContext, FeedWebViewActivity.class);
+                mContext.startActivity(webRedirect);
                 break;
 
         }

@@ -18,6 +18,4 @@ public class FBPagesManager extends Application {
     public static Session sessionInstance;
 
 
-
-
 }

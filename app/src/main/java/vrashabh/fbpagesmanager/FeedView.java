@@ -26,6 +26,7 @@ import vrashabh.fbpagesmanager.Adapters.FeedViewAdapter;
 import vrashabh.fbpagesmanager.ORMpackages.FeedData;
 import vrashabh.fbpagesmanager.utilities.Utilities;
 
+/*TODO: LONG PRESS ITEM FOR LIKE AND COMMENT ITEMS*/
 
 public class FeedView extends ActionBarActivity {
 
@@ -137,11 +138,53 @@ public class FeedView extends ActionBarActivity {
                 public void onItemClick(AdapterView<?> parent, View view,
                                         int position, long id) {
                     Toast.makeText(mContext, "THIS IS A POST", Toast.LENGTH_SHORT).show();
-                    
+
 
                 }
 
             });
+        }
+
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+        }
+    }
+
+    //Use this to get post insights directly on item click
+    private class GetSomeInsights extends AsyncTask<String, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+         /* make the API call */
+
+            new Request(
+
+                    FBPagesManager.sessionInstance,
+                    "/" + FBPagesManager.pageID + "/feed",
+                    null,
+                    HttpMethod.GET,
+                    new Request.Callback() {
+                        public void onCompleted(Response response) {
+
+
+                        }
+                    }
+            ).executeAndWait();
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
+
+
         }
 
 

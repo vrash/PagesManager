@@ -8,6 +8,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.facebook.HttpMethod;
@@ -19,6 +21,9 @@ public class ContentCreationActivity extends ActionBarActivity {
 
     Context mContext = this;
     Bundle postParams;
+    EditText message;
+    EditText link;
+    Switch pubSwitch;
     private ProgressDialog dialog;
 
     @Override
@@ -27,6 +32,9 @@ public class ContentCreationActivity extends ActionBarActivity {
         setContentView(R.layout.activity_content_creation);
         if (FBPagesManager.pageTitle != null)
             setTitle(FBPagesManager.pageTitle + " Feed");
+        message = (EditText) findViewById(R.id.editText);
+        link = (EditText) findViewById(R.id.editText2);
+        pubSwitch = (Switch) findViewById(R.id.pubSwitch);
 
     }
 
@@ -54,12 +62,17 @@ public class ContentCreationActivity extends ActionBarActivity {
     }
 
     public void PostToPage(View v) {
-        dialog = new ProgressDialog(mContext);
-        dialog.setMessage("Posting to Facebook Page");
+        //Empty pans make too much noi
+        if (message.getText().toString().isEmpty())
+            Toast.makeText(mContext, "Please enter a message to publish", Toast.LENGTH_LONG).show();
+        else {
+            dialog = new ProgressDialog(mContext);
+            dialog.setMessage("Posting to Facebook Page");
 
-        dialog.show();
-        dialog.setCanceledOnTouchOutside(false);
-        new PostToPageAsync().execute();
+            dialog.show();
+            dialog.setCanceledOnTouchOutside(false);
+            new PostToPageAsync().execute();
+        }
     }
 
     private class PostToPageAsync extends AsyncTask<String, Void, Boolean> {
@@ -67,8 +80,10 @@ public class ContentCreationActivity extends ActionBarActivity {
         @Override
         protected Boolean doInBackground(String... params) {
             postParams = new Bundle();
-            postParams.putString("message", "message");
-            postParams.putString("name", "name");
+
+            postParams.putString("message", message.getText().toString());
+            postParams.putString("link", link.getText().toString() == null ? "" : link.getText().toString());
+            postParams.putBoolean("published", pubSwitch.isChecked() ? true : false);
             //Post to the page as the page user
             postParams.putString("access_token", FBPagesManager.pageAccessToken);
          /* make the API call */
