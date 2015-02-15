@@ -18,3 +18,4 @@ Right now it's in dev mode, once I finish, I'll start accepting PR's and fix req
 1. Make it feature rich
 2. Improve UI
 3. Make a library to wrap around facebook api for easier api usage
+4. Batch API Calls
