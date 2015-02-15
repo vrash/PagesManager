@@ -147,6 +147,7 @@ public class ManagedPagesViewActivity extends ActionBarActivity {
 /*TODO:MESSAGE WHEN NO ITEMS PRESENT AND LIST IS CLICKED*/
                     } else {
                         FBPagesManager.pageID = responseAccounts.get(position).getId().toString();
+                        FBPagesManager.pageTitle = responseAccounts.get(position).getName().toString();
 
                         // Call the rendering activity
                         Intent i = new Intent(mContext, LearningTheAPIActivity.class);

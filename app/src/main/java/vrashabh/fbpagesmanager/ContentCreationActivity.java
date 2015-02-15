@@ -7,18 +7,26 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
+
+import com.facebook.HttpMethod;
+import com.facebook.Request;
+import com.facebook.Response;
 
 
 public class ContentCreationActivity extends ActionBarActivity {
 
-    ProgressDialog dialog;
-    Context mContext;
+    Context mContext = this;
+    Bundle postParams;
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content_creation);
+        if (FBPagesManager.pageTitle != null)
+            setTitle(FBPagesManager.pageTitle + " Feed");
 
     }
 
@@ -45,19 +53,39 @@ public class ContentCreationActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onPostClick() {
+    public void PostToPage(View v) {
         dialog = new ProgressDialog(mContext);
         dialog.setMessage("Posting to Facebook Page");
+
         dialog.show();
         dialog.setCanceledOnTouchOutside(false);
-        new PostToPage().execute();
+        new PostToPageAsync().execute();
     }
 
-    private class PostToPage extends AsyncTask<String, Void, Boolean> {
+    private class PostToPageAsync extends AsyncTask<String, Void, Boolean> {
 
         @Override
         protected Boolean doInBackground(String... params) {
+            postParams = new Bundle();
+            postParams.putString("message", "message");
+            postParams.putString("name", "name");
+            //Post to the page as the page user
+            postParams.putString("access_token", FBPagesManager.pageAccessToken);
          /* make the API call */
+            new Request(
+                    FBPagesManager.sessionInstance,
+                    "/" + FBPagesManager.pageID + "/feed",
+                    postParams,
+                    HttpMethod.POST,
+                    new Request.Callback() {
+                        public void onCompleted(Response response) {
+
+
+                        }
+
+
+                    }
+            ).executeAndWait();
 
             return true;
         }

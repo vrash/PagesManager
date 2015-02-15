@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.facebook.HttpMethod;
 import com.facebook.Request;
@@ -135,7 +136,8 @@ public class FeedView extends ActionBarActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view,
                                         int position, long id) {
-
+                    Toast.makeText(mContext, "THIS IS A POST", Toast.LENGTH_SHORT).show();
+                    
 
                 }
 
