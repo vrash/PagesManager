@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 import vrashabh.fbpagesmanager.Adapters.FeedViewAdapter;
 import vrashabh.fbpagesmanager.ORMpackages.FeedData;
+import vrashabh.fbpagesmanager.ORMpackages.PageInsightData;
 import vrashabh.fbpagesmanager.utilities.Utilities;
 
 /*TODO: LONG PRESS ITEM FOR LIKE AND COMMENT ITEMS*/
@@ -33,6 +34,7 @@ public class FeedView extends ActionBarActivity {
 
     Context mContext = this;
     ArrayList<FeedData> feedStream;
+    ArrayList<PageInsightData> pageInsight;
     FeedViewAdapter fvAdapter;
     String postObjectID;
     String uniquePostViews;
@@ -170,12 +172,35 @@ public class FeedView extends ActionBarActivity {
             new Request(
 
                     FBPagesManager.sessionInstance,
-                    "/"+postObjectID+"/insights/post_impressions_unique",
+                    "/" + postObjectID + "/insights/post_impressions_unique",
                     null,
                     HttpMethod.GET,
                     new Request.Callback() {
                         public void onCompleted(Response response) {
+                          /* TODO: REPLACE WITH GSON PARSING AND REMOVE THE O(N^2) LOOPS*/
+                            try {
+                                JSONObject jobj = new JSONObject(response.getRawResponse());
+                                JSONArray data = jobj.getJSONArray("data");
+                                pageInsight = new ArrayList<PageInsightData>();
+                                for (int i = 0; i < data.length(); i++) {
+                                    PageInsightData pInsightData = new PageInsightData();
+                                    JSONObject indiObjects = data.getJSONObject(i);
+                                    pInsightData.setId(indiObjects.getString("id"));
+                                    pInsightData.setName(indiObjects.getString("title"));
+                                    JSONArray valueArray = indiObjects.getJSONArray("values");
+                                    for (int j = 0; j < valueArray.length(); j++) {
+                                        JSONObject valueObjects = valueArray.getJSONObject(j);
+                                        uniquePostViews = valueObjects.getString("value");
+                                        pInsightData.setNumberOfUniquePostViews(uniquePostViews);
 
+                                    }
+                                    pageInsight.add(pInsightData);
+                                }
+
+
+                            } catch (Exception ex) {
+                                Log.e("FeedView", "JSON Parsing error");
+                            }
 
                         }
                     }
@@ -188,7 +213,7 @@ public class FeedView extends ActionBarActivity {
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
-            String alertMessage = "This is a message";
+            String alertMessage = "LifeTime Post total reach: " + uniquePostViews;
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
             builder.setMessage(alertMessage)
                     .setCancelable(false)

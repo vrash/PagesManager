@@ -20,6 +20,15 @@ public class FeedData {
     String picture;
     String link;
     String icon;
+    boolean isPublished;
+
+    public boolean isPublished() {
+        return isPublished;
+    }
+
+    public void setPublished(boolean isPublished) {
+        this.isPublished = isPublished;
+    }
 
     public String getId() {
         return id;

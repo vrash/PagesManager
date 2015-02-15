@@ -58,6 +58,7 @@ public class FeedViewAdapter extends BaseAdapter {
             viewHolder.imageView = (ImageView) vi.findViewById(R.id.feedImage);
             viewHolder.feedName = (TextView) vi.findViewById(R.id.feedname);
             viewHolder.creationTime = (TextView) vi.findViewById(R.id.creationTime);
+            viewHolder.feedType = (TextView) vi.findViewById(R.id.feedtype);
             vi.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolderItem) vi.getTag();
@@ -66,12 +67,17 @@ public class FeedViewAdapter extends BaseAdapter {
 
             Picasso.with(context).load(data.get(position).getPicture()).into(viewHolder.imageView);
             viewHolder.feedName.setText(data.get(position).getStory().toString());
+            viewHolder.feedName.setText(data.get(position).getType().toString());
         } else if ((data.get(position).getType().equals("status"))) {
 
             viewHolder.feedName.setText(data.get(position).getMessage().toString());
+            viewHolder.feedName.setText(data.get(position).getType().toString());
 
+        } else if ((data.get(position).getType().equals("link"))) {
+            Picasso.with(context).load(data.get(position).getPicture()).into(viewHolder.imageView);
+            viewHolder.feedName.setText(data.get(position).getMessage().toString());
+            viewHolder.feedName.setText(data.get(position).getLink().toString());
         }
-
         viewHolder.creationTime.setText(data.get(position).getCreated_time().toString());
         // TextView feedType = (TextView) vi.findViewById(R.id.feedtype);
         //feedType.setText(data.get(position).getLink().toString());
@@ -84,6 +90,7 @@ public class FeedViewAdapter extends BaseAdapter {
         TextView feedName;
         TextView creationTime;
         ImageView imageView;
+        TextView feedType;
 
     }
 }
