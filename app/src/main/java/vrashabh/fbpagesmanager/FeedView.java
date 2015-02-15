@@ -113,6 +113,10 @@ public class FeedView extends ActionBarActivity {
 
                                     } else if (indiObjects.getString("type").equals("status")) {
                                         feedData.setMessage(indiObjects.getString("message"));
+                                    } else if (indiObjects.getString("type").equals("link")) {
+                                        feedData.setPicture(indiObjects.getString("picture"));
+                                        feedData.setLink(indiObjects.getString("link"));
+                                        feedData.setIcon(indiObjects.getString("icon"));
                                     }
                                     //Fill up the arraylist with the objects
                                     feedStream.add(feedData);

@@ -66,19 +66,20 @@ public class FeedViewAdapter extends BaseAdapter {
         if (data.get(position).getType().equals("photo")) {
 
             Picasso.with(context).load(data.get(position).getPicture()).into(viewHolder.imageView);
-            viewHolder.feedName.setText(data.get(position).getStory().toString());
-            viewHolder.feedName.setText(data.get(position).getType().toString());
+            viewHolder.feedName.setText(data.get(position).getStory() == null ? "" : data.get(position).getStory().toString());
+            viewHolder.feedType.setText(data.get(position).getType() == null ? "" : data.get(position).getType().toString());
         } else if ((data.get(position).getType().equals("status"))) {
 
-            viewHolder.feedName.setText(data.get(position).getMessage().toString());
-            viewHolder.feedName.setText(data.get(position).getType().toString());
+            viewHolder.feedName.setText(data.get(position).getMessage() == null ? "" : data.get(position).getMessage().toString());
+            viewHolder.feedType.setText(data.get(position).getType() == null ? "" : data.get(position).getType().toString());
 
         } else if ((data.get(position).getType().equals("link"))) {
-            Picasso.with(context).load(data.get(position).getPicture()).into(viewHolder.imageView);
-            viewHolder.feedName.setText(data.get(position).getMessage().toString());
-            viewHolder.feedName.setText(data.get(position).getLink().toString());
+            if (data.get(position).getPicture() != null)
+                Picasso.with(context).load(data.get(position).getPicture()).into(viewHolder.imageView);
+            viewHolder.feedName.setText(data.get(position).getMessage() == null ? "" : data.get(position).getMessage().toString());
+            viewHolder.feedType.setText(data.get(position).getLink() == null ? "" : data.get(position).getLink().toString());
         }
-        viewHolder.creationTime.setText(data.get(position).getCreated_time().toString());
+        viewHolder.creationTime.setText(data.get(position).getCreated_time()==null?"":data.get(position).getCreated_time().toString());
         // TextView feedType = (TextView) vi.findViewById(R.id.feedtype);
         //feedType.setText(data.get(position).getLink().toString());
 
