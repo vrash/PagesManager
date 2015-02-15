@@ -8,7 +8,9 @@ Right now it's in dev mode, once I finish, I'll start accepting PR's and fix req
  
 #Features:
 1.) Create posts on your facebook page.
+
 2.) View your post feed right on the app, manage different pages on one native app
+
 3.) Get insights on your posts like LifeTime reach
 
 #TODO:
