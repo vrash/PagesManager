@@ -23,8 +23,8 @@
 
     <EditText
         android:id="@+id/editText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:layout_height="120dp"
         android:layout_below="@+id/textView4"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
@@ -36,13 +36,13 @@
 
     <EditText
         android:id="@+id/editText2"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/editText"
         android:layout_alignStart="@+id/editText"
-        android:layout_below="@+id/editText"
-        android:layout_marginTop="52dp"
+        android:layout_centerVertical="true"
         android:background="@color/white"
+        android:capitalize="none"
         android:ems="10"
         android:hint="Link"
         android:inputType="textMultiLine"
@@ -62,14 +62,13 @@
 
     <Switch
         android:id="@+id/pubSwitch"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/button6"
-        android:layout_alignLeft="@+id/button6"
-        android:layout_alignStart="@+id/button6"
-        android:layout_marginBottom="74dp"
+        android:layout_below="@+id/editText2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="51dp"
         android:background="@color/FBPAGEBGBT"
         android:checked="false"
-        android:text="Published?"
+        android:text="Publish post?"
         android:textColor="@color/white" />
 </RelativeLayout>

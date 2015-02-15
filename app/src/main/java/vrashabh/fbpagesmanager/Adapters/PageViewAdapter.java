@@ -47,17 +47,33 @@ public class PageViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolderItem viewHolder;
         // TODO Auto-generated method stub
         View vi = convertView;
-        if (vi == null)
+        if (vi == null) {
             vi = inflater.inflate(R.layout.pagesrow, null);
-        TextView pageName = (TextView) vi.findViewById(R.id.pagename);
-        pageName.setText(data.get(position).getName().toString());
-        pageName.setTextColor(vi.getResources().getColor(R.color.white));
-        TextView category = (TextView) vi.findViewById(R.id.pagetyper);
-        category.setText(data.get(position).getCategory().toString());
-        category.setTextColor(vi.getResources().getColor(R.color.white));
+            viewHolder = new ViewHolderItem();
+            viewHolder.pageName = (TextView) vi.findViewById(R.id.pagename);
+            viewHolder.category = (TextView) vi.findViewById(R.id.pagetyper);
+            vi.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolderItem) vi.getTag();
+
+        }
+
+
+        viewHolder.pageName.setText(data.get(position).getName().toString());
+        viewHolder.pageName.setTextColor(vi.getResources().getColor(R.color.white));
+
+        viewHolder.category.setText(data.get(position).getCategory().toString());
+        viewHolder.category.setTextColor(vi.getResources().getColor(R.color.white));
 
         return vi;
+    }
+
+    //ViewHolder pattern
+    static class ViewHolderItem {
+        TextView pageName;
+        TextView category;
     }
 }

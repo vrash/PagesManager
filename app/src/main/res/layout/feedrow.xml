@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/listborder"
     android:orientation="vertical">
 
     <TextView
@@ -15,7 +16,7 @@
         android:layout_marginLeft="51dp"
         android:layout_marginStart="51dp"
         android:text="POST"
-        android:textSize="30dp" />
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/feedtype"
@@ -36,7 +37,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/feedtype"
-        android:src="@drawable/loginbg" />
+        />
 
     <TextView
         android:id="@+id/creationTime"

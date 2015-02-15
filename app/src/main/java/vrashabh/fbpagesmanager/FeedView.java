@@ -1,7 +1,9 @@
 package vrashabh.fbpagesmanager;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -11,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.facebook.HttpMethod;
 import com.facebook.Request;
@@ -33,6 +34,8 @@ public class FeedView extends ActionBarActivity {
     Context mContext = this;
     ArrayList<FeedData> feedStream;
     FeedViewAdapter fvAdapter;
+    String postObjectID;
+    String uniquePostViews;
     private ProgressDialog dialog;
 
     @Override
@@ -137,8 +140,10 @@ public class FeedView extends ActionBarActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view,
                                         int position, long id) {
-                    Toast.makeText(mContext, "THIS IS A POST", Toast.LENGTH_SHORT).show();
-
+                    //Toast.makeText(mContext, "THIS IS A POST", Toast.LENGTH_SHORT).show();
+                    postObjectID = feedStream.get(position).getId().toString();
+                    dialog.show();
+                    new GetSomeInsights().execute();
 
                 }
 
@@ -165,7 +170,7 @@ public class FeedView extends ActionBarActivity {
             new Request(
 
                     FBPagesManager.sessionInstance,
-                    "/" + FBPagesManager.pageID + "/feed",
+                    "/"+postObjectID+"/insights/post_impressions_unique",
                     null,
                     HttpMethod.GET,
                     new Request.Callback() {
@@ -183,6 +188,18 @@ public class FeedView extends ActionBarActivity {
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
+            String alertMessage = "This is a message";
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+            builder.setMessage(alertMessage)
+                    .setCancelable(false)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            //do things
+
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
 
 
         }
