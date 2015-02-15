@@ -101,7 +101,7 @@ public class FeedView extends ActionBarActivity {
                                     FeedData feedData = new FeedData();
                                     JSONObject indiObjects = data.getJSONObject(i);
                                     feedData.setId(indiObjects.getString("id"));
-                                    feedData.setCreated_time(indiObjects.getString("created_time"));
+                                    feedData.setCreated_time(indiObjects.getString("created_time").substring(0, 10));
                                     feedData.setUpdated_time(indiObjects.getString("updated_time"));
                                     feedData.setType(indiObjects.getString("type"));
 
@@ -113,7 +113,9 @@ public class FeedView extends ActionBarActivity {
 
                                     } else if (indiObjects.getString("type").equals("status")) {
                                         feedData.setMessage(indiObjects.getString("message"));
+
                                     } else if (indiObjects.getString("type").equals("link")) {
+                                        feedData.setMessage(indiObjects.getString("message"));
                                         feedData.setPicture(indiObjects.getString("picture"));
                                         feedData.setLink(indiObjects.getString("link"));
                                         feedData.setIcon(indiObjects.getString("icon"));
