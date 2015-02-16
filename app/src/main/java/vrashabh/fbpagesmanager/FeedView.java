@@ -116,7 +116,9 @@ public class FeedView extends ActionBarActivity {
 
                                     } else if (indiObjects.getString("type").equals("link")) {
                                         feedData.setMessage(indiObjects.getString("message"));
-                                        feedData.setPicture(indiObjects.getString("picture"));
+                                        //Link may or may not have a picture
+                                        if (indiObjects.has("picture"))
+                                            feedData.setPicture(indiObjects.getString("picture"));
                                         feedData.setLink(indiObjects.getString("link"));
                                         feedData.setIcon(indiObjects.getString("icon"));
                                     }

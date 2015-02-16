@@ -15,5 +15,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10.0sp"
+        android:minHeight="?android:attr/listPreferredItemHeight" />
 </RelativeLayout>
