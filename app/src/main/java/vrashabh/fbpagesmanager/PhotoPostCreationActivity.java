@@ -1,14 +1,23 @@
 package vrashabh.fbpagesmanager;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -16,35 +25,37 @@ import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 
-public class ContentCreationActivity extends ActionBarActivity {
 
+public class PhotoPostCreationActivity extends ActionBarActivity {
+    private static final int TAKE_PICTURE = 1;
     Context mContext = this;
     Bundle postParams;
     EditText message;
-    EditText link;
+    ImageView camImage;
     Switch pubSwitch;
+    Bitmap scaledPhoto;
     private ProgressDialog dialog;
-//    boolean isCameraUpload = false;
+    private Uri imageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_content_creation);
-
+        setContentView(R.layout.activity_photo_post_creation);
         if (FBPagesManager.pageTitle != null)
             setTitle(FBPagesManager.pageTitle + " Feed");
-        message = (EditText) findViewById(R.id.editText);
-        link = (EditText) findViewById(R.id.editText2);
-        pubSwitch = (Switch) findViewById(R.id.pubSwitch);
-
+        message = (EditText) findViewById(R.id.cammsg);
+        camImage = (ImageView) findViewById(R.id.camimage);
+        pubSwitch = (Switch) findViewById(R.id.pubSwitchCam);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_content_creation, menu);
+        getMenuInflater().inflate(R.menu.menu_photo_post_creation, menu);
         return true;
     }
 
@@ -63,7 +74,7 @@ public class ContentCreationActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void PostToPage(View v) {
+    public void PostPhotoToPage(View v) {
         //Empty pans make too much noi
         if (message.getText().toString().isEmpty())
             Toast.makeText(mContext, "Please enter a message to publish", Toast.LENGTH_LONG).show();
@@ -73,25 +84,65 @@ public class ContentCreationActivity extends ActionBarActivity {
 
             dialog.show();
             dialog.setCanceledOnTouchOutside(false);
-            new PostToPageAsync().execute();
+            new PostPhotoToPageAsync().execute();
         }
     }
 
-    private class PostToPageAsync extends AsyncTask<String, Void, Boolean> {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case TAKE_PICTURE:
+                if (resultCode == Activity.RESULT_OK) {
+                    Uri selectedImage = imageUri;
+                    getContentResolver().notifyChange(selectedImage, null);
+
+                    ContentResolver cr = getContentResolver();
+                    Bitmap bitmap;
+                    try {
+                        bitmap = android.provider.MediaStore.Images.Media
+                                .getBitmap(cr, selectedImage);
+                        //Scale the image to the bracket size eh!
+                        scaledPhoto = Bitmap.createScaledBitmap(bitmap, 200, 200, true);
+                        camImage.setImageBitmap(scaledPhoto);
+                       /* Toast.makeText(this, selectedImage.toString(),
+                                Toast.LENGTH_LONG).show();*/
+                    } catch (Exception e) {
+                        Toast.makeText(this, "Failed to load", Toast.LENGTH_SHORT)
+                                .show();
+                        Log.e("Camera", e.toString());
+                    }
+                }
+        }
+    }
+
+    public void takePhoto(View view) {
+        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+        File photo = new File(Environment.getExternalStorageDirectory(), "Pic.jpg");
+        intent.putExtra(MediaStore.EXTRA_OUTPUT,
+                Uri.fromFile(photo));
+        imageUri = Uri.fromFile(photo);
+        startActivityForResult(intent, TAKE_PICTURE);
+    }
+
+    private class PostPhotoToPageAsync extends AsyncTask<String, Void, Boolean> {
 
         @Override
         protected Boolean doInBackground(String... params) {
             postParams = new Bundle();
 
             postParams.putString("message", message.getText().toString());
-            postParams.putString("link", link.getText().toString() == null ? "" : link.getText().toString());
             postParams.putBoolean("published", pubSwitch.isChecked() ? true : false);
             //Post to the page as the page user
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            scaledPhoto.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+            postParams.putByteArray("source", byteArray);
             postParams.putString("access_token", FBPagesManager.pageAccessToken);
          /* make the API call */
             new Request(
                     FBPagesManager.sessionInstance,
-                    "/" + FBPagesManager.pageID + "/feed",
+                    "/" + FBPagesManager.pageID + "/photos",
                     postParams,
                     HttpMethod.POST,
                     new Request.Callback() {
@@ -124,4 +175,5 @@ public class ContentCreationActivity extends ActionBarActivity {
         protected void onProgressUpdate(Void... values) {
         }
     }
+
 }

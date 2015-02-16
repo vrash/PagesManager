@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -55,6 +56,7 @@ public class FeedViewAdapter extends BaseAdapter {
         if (vi == null) {
             vi = inflater.inflate(R.layout.feedrow, parent, false);
             viewHolder = new ViewHolderItem();
+            viewHolder.feedrelative = (RelativeLayout) vi.findViewById(R.id.feedrelative);
             viewHolder.imageView = (ImageView) vi.findViewById(R.id.feedImage);
             viewHolder.feedName = (TextView) vi.findViewById(R.id.feedname);
             viewHolder.creationTime = (TextView) vi.findViewById(R.id.creationTime);
@@ -63,16 +65,21 @@ public class FeedViewAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolderItem) vi.getTag();
         }
-        viewHolder.imageView.setVisibility(View.VISIBLE);
+
+        if (!data.get(position).isPublished())
+            viewHolder.feedrelative.setBackgroundColor(vi.getResources().getColor(R.color.gray));
+        else
+            viewHolder.feedrelative.setBackgroundColor(vi.getResources().getColor(R.color.white));
+
         if (data.get(position).getType().equals("photo")) {
 
             Picasso.with(context).load(data.get(position).getPicture()).into(viewHolder.imageView);
             viewHolder.feedName.setText(data.get(position).getStory() == null ? "" : data.get(position).getStory().toString());
-            viewHolder.feedType.setText(data.get(position).getType() == null ? "" : data.get(position).getType().toString());
+            //viewHolder.feedType.setText(data.get(position).getType() == null ? "" : data.get(position).getType().toString());
         } else if ((data.get(position).getType().equals("status"))) {
-            viewHolder.imageView.setVisibility(View.GONE);
+
             viewHolder.feedName.setText(data.get(position).getMessage() == null ? "" : data.get(position).getMessage().toString());
-            viewHolder.feedType.setText(data.get(position).getType() == null ? "" : data.get(position).getType().toString());
+            //viewHolder.feedType.setText(data.get(position).getType() == null ? "" : data.get(position).getType().toString());
 
         } else if ((data.get(position).getType().equals("link"))) {
             if (data.get(position).getPicture() != null)
@@ -93,6 +100,7 @@ public class FeedViewAdapter extends BaseAdapter {
         TextView creationTime;
         ImageView imageView;
         TextView feedType;
+        RelativeLayout feedrelative;
 
     }
 }

@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.Session;
 
@@ -76,12 +77,16 @@ public class LearningTheAPIActivity extends ActionBarActivity {
                 mContext.startActivity(i);
                 break;
             case R.id.button2:
+
                 Intent contentCreate = new Intent(mContext, ContentCreationActivity.class);
                 mContext.startActivity(contentCreate);
                 break;
             case R.id.button3:
+                Intent photoCreate = new Intent(mContext, PhotoPostCreationActivity.class);
+                mContext.startActivity(photoCreate);
                 break;
             case R.id.button4:
+                Toast.makeText(mContext, "Coming soon, Hang tight!", Toast.LENGTH_LONG);
                 break;
             //Redirect to the web view if all else fails
             case R.id.button7:

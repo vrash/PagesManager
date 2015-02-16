@@ -38,6 +38,8 @@ public class FeedView extends ActionBarActivity {
     FeedViewAdapter fvAdapter;
     String postObjectID;
     String uniquePostViews;
+    int insightLikes;
+    int insightComments;
     private ProgressDialog dialog;
 
     @Override
@@ -86,7 +88,7 @@ public class FeedView extends ActionBarActivity {
                     /*TODO: IMPROVE PERFORMANCE TO UNLIMITED SCROLLING*/
 
                     FBPagesManager.sessionInstance,
-                    "/" + FBPagesManager.pageID + "/feed",
+                    "/" + FBPagesManager.pageID + "/promotable_posts",
                     null,
                     HttpMethod.GET,
                     new Request.Callback() {
@@ -109,18 +111,22 @@ public class FeedView extends ActionBarActivity {
                                         feedData.setPicture(indiObjects.getString("picture"));
                                         feedData.setLink(indiObjects.getString("link"));
                                         feedData.setIcon(indiObjects.getString("icon"));
-                                        feedData.setStory(indiObjects.getString("story"));
+                                        if (indiObjects.has("story"))
+                                            feedData.setStory(indiObjects.getString("story"));
 
                                     } else if (indiObjects.getString("type").equals("status")) {
-                                        feedData.setMessage(indiObjects.getString("message"));
+                                        if (indiObjects.has("message"))
+                                            feedData.setMessage(indiObjects.getString("message"));
 
                                     } else if (indiObjects.getString("type").equals("link")) {
-                                        feedData.setMessage(indiObjects.getString("message"));
+                                        if (indiObjects.has("message"))
+                                            feedData.setMessage(indiObjects.getString("message"));
                                         //Link may or may not have a picture
                                         if (indiObjects.has("picture"))
                                             feedData.setPicture(indiObjects.getString("picture"));
                                         feedData.setLink(indiObjects.getString("link"));
                                         feedData.setIcon(indiObjects.getString("icon"));
+                                        feedData.setPublished(indiObjects.getBoolean("is_published"));
                                     }
                                     //Fill up the arraylist with the objects
                                     feedStream.add(feedData);
@@ -213,6 +219,29 @@ public class FeedView extends ActionBarActivity {
                         }
                     }
             ).executeAndWait();
+             /* make the API call */
+
+            new Request(
+
+                    FBPagesManager.sessionInstance,
+                    "/" + postObjectID + "/likes",
+                    null,
+                    HttpMethod.GET,
+                    new Request.Callback() {
+                        public void onCompleted(Response response) {
+                          /* TODO: REPLACE WITH GSON PARSING AND REMOVE THE O(N^2) LOOPS*/
+                            try {
+                                JSONObject jobj = new JSONObject(response.getRawResponse());
+                                JSONArray data = jobj.getJSONArray("data");
+                                insightLikes = data.length();
+
+                            } catch (Exception ex) {
+                                Log.e("FeedView", "JSON Parsing error");
+                            }
+
+                        }
+                    }
+            ).executeAndWait();
             return true;
         }
 
@@ -221,7 +250,8 @@ public class FeedView extends ActionBarActivity {
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
-            String alertMessage = "LifeTime Post total reach: " + uniquePostViews;
+            String alertMessage = "LifeTime Post total reach: " + uniquePostViews +
+                    "\n Number of Likes:  " + insightLikes;
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
             builder.setMessage(alertMessage)
                     .setCancelable(false)
