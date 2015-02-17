@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.facebook.FacebookException;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
@@ -31,7 +33,15 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login2);
         LoginButton fbLogin = (LoginButton) findViewById(R.id.authButton);
-        //Its a lot of permissions, but then I dont like the workaround yet
+        //Error handling on Login
+        fbLogin.setOnErrorListener(new LoginButton.OnErrorListener() {
+
+            @Override
+            public void onError(FacebookException error) {
+                Log.i("LoginActivity", "Error " + error.getMessage());
+            }
+        });
+        //Its a lot of permissions, but then I don't like the workaround yet
         if (FBPagesManager.sessionInstance != null)
             fbLogin.setPublishPermissions(Arrays.asList("public_profile", "email", "publish_stream", "user_likes", "manage_pages", "publish_actions", "read_insights"));
 

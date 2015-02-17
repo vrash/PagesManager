@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.facebook.FacebookRequestError;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
@@ -37,6 +38,8 @@ public class PhotoPostCreationActivity extends ActionBarActivity {
     ImageView camImage;
     Switch pubSwitch;
     Bitmap scaledPhoto;
+    boolean isPostingError;
+    String postingErrorMessage;
     private ProgressDialog dialog;
     private Uri imageUri;
 
@@ -147,7 +150,15 @@ public class PhotoPostCreationActivity extends ActionBarActivity {
                     HttpMethod.POST,
                     new Request.Callback() {
                         public void onCompleted(Response response) {
+                            //An error occurred during posting to facebook
+                            FacebookRequestError error = response.getError();
+                            if (error != null) {
+                                isPostingError = true;
+                                postingErrorMessage = error.getErrorUserMessage();
 
+                            } else {
+                                isPostingError = false;
+                            }
 
                         }
 
@@ -163,7 +174,10 @@ public class PhotoPostCreationActivity extends ActionBarActivity {
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
-            Toast.makeText(mContext, "Posted to Facebook page!", Toast.LENGTH_SHORT).show();
+            if (!isPostingError)
+                Toast.makeText(mContext, "Posted to Facebook page!", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(mContext, "Sorry, " + postingErrorMessage, Toast.LENGTH_SHORT).show();
         }
 
 

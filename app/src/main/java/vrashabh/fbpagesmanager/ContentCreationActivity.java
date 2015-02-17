@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.facebook.FacebookRequestError;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
@@ -24,6 +25,8 @@ public class ContentCreationActivity extends ActionBarActivity {
     EditText message;
     EditText link;
     Switch pubSwitch;
+    boolean isPostingError = false;
+    String postingErrorMessage;
     private ProgressDialog dialog;
 //    boolean isCameraUpload = false;
 
@@ -96,7 +99,15 @@ public class ContentCreationActivity extends ActionBarActivity {
                     HttpMethod.POST,
                     new Request.Callback() {
                         public void onCompleted(Response response) {
+                            //An error occurred during posting to facebook
+                            FacebookRequestError error = response.getError();
+                            if (error != null) {
+                                isPostingError = true;
+                                postingErrorMessage = error.getErrorUserMessage();
 
+                            } else {
+                                isPostingError = false;
+                            }
 
                         }
 
@@ -112,7 +123,10 @@ public class ContentCreationActivity extends ActionBarActivity {
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
-            Toast.makeText(mContext, "Posted to Facebook page!", Toast.LENGTH_SHORT).show();
+            if (!isPostingError)
+                Toast.makeText(mContext, "Posted to Facebook page!", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(mContext, "Sorry, " + postingErrorMessage, Toast.LENGTH_SHORT).show();
         }
 
 

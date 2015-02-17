@@ -13,7 +13,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.facebook.FacebookRequestError;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
@@ -40,6 +42,8 @@ public class FeedView extends ActionBarActivity {
     String uniquePostViews;
     int insightLikes;
     int insightComments;
+    boolean isPostingError;
+    String postingErrorMessage;
     private ProgressDialog dialog;
 
     @Override
@@ -92,6 +96,7 @@ public class FeedView extends ActionBarActivity {
                     null,
                     HttpMethod.GET,
                     new Request.Callback() {
+
                         public void onCompleted(Response response) {
 
                             try {
@@ -136,9 +141,20 @@ public class FeedView extends ActionBarActivity {
                                 Log.e("FeedView", ex.getMessage());
                             }
 
+                            FacebookRequestError error = response.getError();
+                            if (error != null) {
+                                isPostingError = true;
+                                postingErrorMessage = error.getErrorUserMessage();
+                            } else
+                                isPostingError = false;
+
                         }
+
                     }
+
             ).executeAndWait();
+
+
             return true;
         }
 
@@ -164,6 +180,14 @@ public class FeedView extends ActionBarActivity {
                 }
 
             });
+
+            //Dont want to put this error before list is formed since I'm not sure of the full error scope
+            //Might catch warnings that might ordinarily show the feed anyway
+            if (!isPostingError) {
+                Toast.makeText(mContext, "Page feed!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(mContext, "Sorry, " + postingErrorMessage + " while retrieving feed", Toast.LENGTH_SHORT).show();
+            }
         }
 
 
