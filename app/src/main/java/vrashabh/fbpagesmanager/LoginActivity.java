@@ -20,6 +20,7 @@ import com.facebook.widget.LoginButton;
 import java.util.Arrays;
 
 import vrashabh.fbpagesmanager.ORMpackages.AccountsResponse;
+import vrashabh.fbpagesmanager.ORMpackages.PermissionAccess;
 import vrashabh.fbpagesmanager.ORMpackages.UserInfo;
 
 
@@ -43,7 +44,8 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         });
         //Its a lot of permissions, but then I don't like the workaround yet
         if (FBPagesManager.sessionInstance != null)
-            fbLogin.setPublishPermissions(Arrays.asList("public_profile", "email", "publish_stream", "user_likes", "manage_pages", "publish_actions", "read_insights"));
+            fbLogin.setReadPermissions(Arrays.asList(PermissionAccess.pAccess));
+        fbLogin.setPublishPermissions(Arrays.asList(PermissionAccess.pAccess));
 
     }
 
