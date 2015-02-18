@@ -16,5 +16,6 @@
     <string name="title_activity_feed_view">View Post Feed</string>
     <string name="title_activity_feed_web_view">FeedWebViewActivity</string>
     <string name="title_activity_photo_post_creation">PhotoPostCreationActivity</string>
+    <string name="title_activity_video_post_creation">VideoPostCreation</string>
 
 </resources>
