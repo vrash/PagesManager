@@ -86,7 +86,7 @@ public class LearningTheAPIActivity extends ActionBarActivity {
                 mContext.startActivity(photoCreate);
                 break;
             case R.id.button4:
-                Toast.makeText(mContext, "Coming soon, Hang tight!", Toast.LENGTH_LONG);
+                Toast.makeText(mContext, "Coming soon, Hang tight!", Toast.LENGTH_LONG).show();
                 break;
             //Redirect to the web view if all else fails
             case R.id.button7:
