@@ -131,8 +131,9 @@ public class FeedView extends ActionBarActivity {
                                             feedData.setPicture(indiObjects.getString("picture"));
                                         feedData.setLink(indiObjects.getString("link"));
                                         feedData.setIcon(indiObjects.getString("icon"));
-                                        feedData.setPublished(indiObjects.getBoolean("is_published"));
+
                                     }
+                                    feedData.setPublished(indiObjects.getBoolean("is_published"));
                                     //Fill up the arraylist with the objects
                                     feedStream.add(feedData);
                                 }
