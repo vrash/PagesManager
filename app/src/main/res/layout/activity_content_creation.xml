@@ -72,4 +72,17 @@
         android:checked="false"
         android:text="Publish post?"
         android:textColor="@color/white" />
+
+
+    <Switch
+        android:id="@+id/scheduledSwitch"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/pubSwitch"
+        android:layout_alignStart="@+id/pubSwitch"
+        android:layout_below="@+id/pubSwitch"
+        android:background="@color/FBPAGEBGBT"
+        android:checked="false"
+        android:text="Schedule post?"
+        android:textColor="@color/white" />
 </RelativeLayout>

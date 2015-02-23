@@ -27,6 +27,7 @@ public class ContentCreationActivity extends ActionBarActivity {
     Switch pubSwitch;
     boolean isPostingError = false;
     String postingErrorMessage;
+    Switch schedulePostForLater;
     private ProgressDialog dialog;
 //    boolean isCameraUpload = false;
 
@@ -40,6 +41,7 @@ public class ContentCreationActivity extends ActionBarActivity {
         message = (EditText) findViewById(R.id.editText);
         link = (EditText) findViewById(R.id.editText2);
         pubSwitch = (Switch) findViewById(R.id.pubSwitch);
+        schedulePostForLater = (Switch) findViewById(R.id.scheduledSwitch);
 
     }
 
@@ -89,6 +91,12 @@ public class ContentCreationActivity extends ActionBarActivity {
             postParams.putString("message", message.getText().toString());
             postParams.putString("link", link.getText().toString() == null ? "" : link.getText().toString());
             postParams.putBoolean("published", pubSwitch.isChecked() ? true : false);
+            boolean scheduleForLater = schedulePostForLater.isChecked();
+            //Timestamp scheduleTimeStamp = new Timestamp("2015-02-18 11:45:00.0");
+            if(scheduleForLater) {
+                long scheduledTimeStamp = (System.currentTimeMillis()/1000L + (15 * 60));
+                postParams.putLong("scheduled_publish_time", scheduledTimeStamp);
+            }
             //Post to the page as the page user
             postParams.putString("access_token", FBPagesManager.pageAccessToken);
          /* make the API call */
