@@ -97,6 +97,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_login, menu);
         return true;
+
     }
 
     @Override

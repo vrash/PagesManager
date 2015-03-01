@@ -26,4 +26,6 @@ dependencies {
     compile project(':facebook')
     compile files('libs/gson-2.2.4.jar')
     compile 'com.squareup.picasso:picasso:2.4.0'
+    compile 'com.parse.bolts:bolts-android:1.+'
+    compile fileTree(dir: 'libs', include: 'Parse-*.jar')
 }
